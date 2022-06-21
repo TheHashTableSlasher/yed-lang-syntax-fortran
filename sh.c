@@ -1,5 +1,11 @@
 #include <yed/plugin.h>
+
+/* Evil hack to make syntax highlighter case-insensitive */
+#include <regex.h>
+static int (*const __regcomp_hook)() = regcomp;
+#define regcomp(reg, patt, flags) __regcomp_hook(reg, patt, (flags) | REG_ICASE)
 #include <yed/syntax.h>
+#undef regcomp
 
 static yed_syntax syn;
 
